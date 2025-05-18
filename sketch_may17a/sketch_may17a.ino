@@ -4,6 +4,8 @@ int sensorLow = 1023;
 int sensorHigh = 0;
 int pitchLow = 100;
 int pitchHigh =1000;
+int pitch = pitchLow;
+int mode = 1;
 
 const int ledPin = 13;
 
@@ -31,8 +33,15 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   sensorValue = analogRead(A0);
+
+  if(mode == 1){
+    pitch = map(sensorValue,sensorLow,sensorHigh, pitchLow, pitchHigh);    
+  }
+  else{
+    pitch = pitchLow;
+  }
   
-  int pitch = map(sensorValue,sensorLow,sensorHigh, pitchLow, pitchHigh);
+  
 
   tone(8,pitch,20);
 
@@ -69,6 +78,12 @@ void handleCLI(){
       } else {
         Serial.println("LED is OFF");
       }
+    }
+    else if (command == "MODE1") {
+     mode=1;     
+    }
+    else if (command == "MODE0") {
+     mode=0;     
     }
     else {
       Serial.println("Unknown command");
