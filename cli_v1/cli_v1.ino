@@ -1,4 +1,20 @@
+// this program is based in project 4 of the arduino book and in a cli code I got from chat gpt
+// there are a couple of example cli commands that do numeric operations, and one that sets the red, green, blue
+// components of the rgb LED 
 
+// LED pins and colors definitions
+
+const int greenLEDPin = 9;
+const int redLEDPin = 11;
+const int blueLEDPin = 10;
+
+
+int redValue = 50;
+int greenValue = 0;
+int blueValue = 100;
+
+
+// CLI definitions
 
 #define MAX_TOKENS 10
 String tokens[MAX_TOKENS];
@@ -20,6 +36,10 @@ void loop() {
       Serial.println("Invalid input format.");
     }
   }
+
+analogWrite(redLEDPin, redValue);
+analogWrite(greenLEDPin, greenValue);
+analogWrite(blueLEDPin, blueValue);
 }
 
 bool parseCommand(String input) {
@@ -50,6 +70,7 @@ bool parseCommand(String input) {
   return true;
 }
 
+
 void handleCommand(String key) {
   if (key == "add") {
     int sum = 0;
@@ -76,7 +97,19 @@ void handleCommand(String key) {
     }
     Serial.println("Max = " + String(maxVal));
 
-  } else {
+  } 
+    else if (key == "rgbset") {
+    if (valueCount < 3) {
+      Serial.println("rgbset requires 3 values");
+      return;
+    }
+
+    redValue = values[0];
+    greenValue = values[1];
+    blueValue = values[2];
+
+  }   
+  else {
     Serial.println("Unknown command: " + key);
   }
 }
